@@ -292,7 +292,6 @@ cat > src/main/resources/change-feed-cosmos-cloud.properties << EOF
 multiclouddb.provider=cosmos
 multiclouddb.connection.endpoint=$COSMOS_ENDPOINT
 multiclouddb.connection.key=$COSMOS_KEY
-multiclouddb.connection.connectionMode=gateway
 multiclouddb.database=multiclouddb-sdk-for-java-changefeed
 multiclouddb.collection=change-feed-demo
 EOF
@@ -309,7 +308,6 @@ $COSMOS_KEY = (az cosmosdb keys list --name $COSMOS_ACCOUNT --resource-group $CO
 multiclouddb.provider=cosmos
 multiclouddb.connection.endpoint=$COSMOS_ENDPOINT
 multiclouddb.connection.key=$COSMOS_KEY
-multiclouddb.connection.connectionMode=gateway
 multiclouddb.database=multiclouddb-sdk-for-java-changefeed
 multiclouddb.collection=change-feed-demo
 "@ | Set-Content src\main\resources\change-feed-cosmos-cloud.properties
@@ -845,7 +843,6 @@ Cosmos DB has two backup policies, each with different behavior:
 multiclouddb.provider=cosmos
 multiclouddb.connection.endpoint=https://<account>.documents.azure.com:443/
 multiclouddb.connection.key=<primary-master-key>
-multiclouddb.connection.connectionMode=gateway
 multiclouddb.database=multiclouddb-sdk-for-java-changefeed
 # Do NOT set retentionDays on a CB account — Cosmos rejects explicit retention policies.
 ```
@@ -864,7 +861,6 @@ multiclouddb.database=multiclouddb-sdk-for-java-changefeed
 multiclouddb.provider=cosmos
 multiclouddb.connection.endpoint=https://<account>.documents.azure.com:443/
 multiclouddb.connection.key=<primary-master-key>
-multiclouddb.connection.connectionMode=gateway
 multiclouddb.database=multiclouddb-sdk-for-java-changefeed
 multiclouddb.changefeed.retentionDays=7
 ```
@@ -1140,7 +1136,6 @@ the same set of keys from the properties file pointed to by
 | `multiclouddb.provider` | yes | — | `cosmos` |
 | `multiclouddb.connection.endpoint` | yes | — | `https://localhost:8081` (emulator) or `https://<account>.documents.azure.com:443/` (cloud) |
 | `multiclouddb.connection.key` | yes | — | Cosmos primary master key. |
-| `multiclouddb.connection.connectionMode` | no | `gateway` | `gateway` is required for the emulator and works for live accounts; `direct` is also valid for live accounts. |
 | `multiclouddb.database` | no | `multiclouddb-sdk-for-java-changefeed` | Logical database name. |
 | `multiclouddb.collection` | no | `change-feed-demo` | Container name. |
 

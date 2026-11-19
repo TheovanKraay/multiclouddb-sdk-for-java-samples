@@ -69,7 +69,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  *   multiclouddb.provider=cosmos
  *   multiclouddb.connection.endpoint=https://&lt;account&gt;.documents.azure.com:443/
  *   multiclouddb.connection.key=&lt;primary-master-key&gt;
- *   multiclouddb.connection.connectionMode=gateway
  *   multiclouddb.database=multiclouddb-sdk-for-java-changefeed
  *
  *   # Extended retention opt-in:

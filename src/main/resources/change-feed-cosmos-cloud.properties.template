@@ -36,7 +36,6 @@ multiclouddb.collection=change-feed-demo
 # --- Azure Cosmos DB (LIVE) -------------------------------------------------
 multiclouddb.connection.endpoint=<REPLACE_ME_ENDPOINT>
 multiclouddb.connection.key=<REPLACE_ME_PRIMARY_KEY>
-multiclouddb.connection.connectionMode=gateway
 
 # --- Throughput (optional, emulator only) ------------------------------------
 # On the emulator the sample creates the container via the Cosmos SDK. Set

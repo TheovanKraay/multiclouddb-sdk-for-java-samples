@@ -593,7 +593,6 @@ cat > src/main/resources/todo-app-cosmos-cloud.properties << EOF
 multiclouddb.provider=cosmos
 multiclouddb.connection.endpoint=$COSMOS_ENDPOINT
 multiclouddb.connection.key=$COSMOS_KEY
-multiclouddb.connection.connectionMode=gateway
 EOF
 ```
 
@@ -651,7 +650,6 @@ $COSMOS_KEY = (az cosmosdb keys list `
 multiclouddb.provider=cosmos
 multiclouddb.connection.endpoint=$COSMOS_ENDPOINT
 multiclouddb.connection.key=$COSMOS_KEY
-multiclouddb.connection.connectionMode=gateway
 "@ | Set-Content src\main\resources\todo-app-cosmos-cloud.properties
 ```
 
@@ -668,7 +666,6 @@ Get-Content src\main\resources\todo-app-cosmos-cloud.properties
 > multiclouddb.provider=cosmos
 > multiclouddb.connection.endpoint=https://<YOUR-ACCOUNT>.documents.azure.com:443/
 > multiclouddb.connection.key=<YOUR-PRIMARY-KEY>
-> multiclouddb.connection.connectionMode=gateway
 > ```
 
 > **Using Entra ID instead of a master key?** See

@@ -1971,7 +1971,6 @@ cat > src/main/resources/risk-platform-cosmos-cloud.properties << EOF
 multiclouddb.provider=cosmos
 multiclouddb.connection.endpoint=$COSMOS_ENDPOINT
 multiclouddb.connection.key=$COSMOS_KEY
-multiclouddb.connection.connectionMode=gateway
 EOF
 ```
 
@@ -2019,7 +2018,6 @@ $COSMOS_KEY      = (az cosmosdb keys list `
 multiclouddb.provider=cosmos
 multiclouddb.connection.endpoint=$COSMOS_ENDPOINT
 multiclouddb.connection.key=$COSMOS_KEY
-multiclouddb.connection.connectionMode=gateway
 "@ | Set-Content src\main\resources\risk-platform-cosmos-cloud.properties
 ```
 
@@ -2036,7 +2034,6 @@ Get-Content src\main\resources\risk-platform-cosmos-cloud.properties
 > multiclouddb.provider=cosmos
 > multiclouddb.connection.endpoint=https://<YOUR-ACCOUNT>.documents.azure.com:443/
 > multiclouddb.connection.key=<YOUR-PRIMARY-KEY>
-> multiclouddb.connection.connectionMode=gateway
 > ```
 
 ---
@@ -2090,7 +2087,6 @@ COSMOS_ENDPOINT=$(az cosmosdb show \
 cat > src/main/resources/risk-platform-cosmos-cloud.properties << EOF
 multiclouddb.provider=cosmos
 multiclouddb.connection.endpoint=$COSMOS_ENDPOINT
-multiclouddb.connection.connectionMode=gateway
 multiclouddb.connection.subscriptionId=$COSMOS_SUBSCRIPTION
 multiclouddb.connection.resourceGroupName=$COSMOS_RG
 multiclouddb.connection.tenantId=$COSMOS_TENANT
@@ -2145,7 +2141,6 @@ $COSMOS_ENDPOINT     = (az cosmosdb show `
 @"
 multiclouddb.provider=cosmos
 multiclouddb.connection.endpoint=$COSMOS_ENDPOINT
-multiclouddb.connection.connectionMode=gateway
 multiclouddb.connection.subscriptionId=$COSMOS_SUBSCRIPTION
 multiclouddb.connection.resourceGroupName=$COSMOS_RG
 multiclouddb.connection.tenantId=$COSMOS_TENANT

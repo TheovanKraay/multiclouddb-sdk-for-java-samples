@@ -87,15 +87,12 @@ final class ChangeFeedSampleSupport {
                                              int throughputRU) {
         String endpoint = appConfig.sdk().connection().get("endpoint");
         String key = appConfig.sdk().connection().get("key");
-        String mode = appConfig.sdk().connection().getOrDefault("connectionMode", "gateway");
 
         CosmosClientBuilder builder = new CosmosClientBuilder()
                 .endpoint(endpoint)
                 .key(key)
-                .consistencyLevel(ConsistencyLevel.SESSION);
-        if ("gateway".equalsIgnoreCase(mode)) {
-            builder.gatewayMode(new GatewayConnectionConfig());
-        }
+                .consistencyLevel(ConsistencyLevel.SESSION)
+                .gatewayMode(new GatewayConnectionConfig());
 
         try (CosmosClient cosmos = builder.buildClient()) {
             cosmos.createDatabaseIfNotExists(database);
