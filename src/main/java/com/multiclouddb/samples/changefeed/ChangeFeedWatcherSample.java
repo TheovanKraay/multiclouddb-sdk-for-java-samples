@@ -5,7 +5,6 @@ package com.multiclouddb.samples.changefeed;
 
 import com.multiclouddb.samples.ConfigLoader;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.multiclouddb.api.Capability;
 import com.multiclouddb.api.CapabilitySet;
 import com.multiclouddb.api.MulticloudDbClient;
@@ -154,7 +153,7 @@ public class ChangeFeedWatcherSample {
             List<ChangeFeedCursor> cursors = new ArrayList<>(client.listCursors(address));
             log.info("Discovered {} partition cursor(s) at the live tip.", cursors.size());
             for (int i = 0; i < cursors.size(); i++) {
-                String token = cursors.get(i).toToken();
+                String token = cursors.get(i).toToken(FeedJson::write);
                 log.info("  cursor-{}: {}…", i, token.substring(0, Math.min(80, token.length())));
             }
             if (cursors.isEmpty()) {
@@ -279,10 +278,10 @@ public class ChangeFeedWatcherSample {
                 .append("cursor-").append(cursorIndex).append("  ")
                 .append(String.format("%-6s ", ev.type()))
                 .append(ev.key());
-        JsonNode doc = ev.data();
-        if (doc != null && !doc.isMissingNode() && !doc.isNull()) {
+        Object doc = ev.data();
+        if (doc != null) {
             // Compact one-line payload preview; trim very long docs.
-            String json = doc.toString();
+            String json = FeedJson.write(doc);
             if (json.length() > 400) json = json.substring(0, 400) + "…";
             sb.append("  ").append(json);
         }

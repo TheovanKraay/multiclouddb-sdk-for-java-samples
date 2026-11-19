@@ -1,8 +1,7 @@
 # Local Maven CLI overrides (template).
 #
-# By default this project pulls the Multicloud DB SDK from Maven Central
-# at the version pinned in pom.xml. To test against a locally-built SDK
-# (e.g., while developing the SDK itself in multiclouddb-sdk-for-java):
+# This branch already selects the locally installed snapshots in pom.xml.
+# Use overrides only to test a different compatible SDK revision:
 #
 #   1. Build & install the SDK locally:
 #        cd <multiclouddb-sdk-for-java>
@@ -20,7 +19,7 @@
 # .mvn/maven.config is git-ignored so per-developer overrides never
 # leak into commits.
 
--Dmulticlouddb-api.version=0.2.0-SNAPSHOT
--Dmulticlouddb-provider-cosmos.version=0.2.0-SNAPSHOT
--Dmulticlouddb-provider-dynamo.version=0.2.0-SNAPSHOT
--Dmulticlouddb-provider-spanner.version=0.2.0-SNAPSHOT
+-Dmulticlouddb-api.version=0.1.0-beta.2-SNAPSHOT
+-Dmulticlouddb-provider-cosmos.version=0.1.0-beta.2-SNAPSHOT
+-Dmulticlouddb-provider-dynamo.version=0.1.0-beta.2-SNAPSHOT
+-Dmulticlouddb-provider-spanner.version=0.1.0-beta.1-SNAPSHOT

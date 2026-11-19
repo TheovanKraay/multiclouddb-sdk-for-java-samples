@@ -361,7 +361,7 @@ public class ChangeFeedExtendedRetentionSample {
         for (int i = 1; i < lines.size(); i++) {
             String token = lines.get(i).trim();
             if (!token.isEmpty()) {
-                savedCursors.add(ChangeFeedCursor.fromToken(token));
+                savedCursors.add(ChangeFeedCursor.fromToken(token, FeedJson::read));
             }
         }
         System.out.println("  Loaded " + savedCursors.size() + " saved cursor(s)");
@@ -504,7 +504,7 @@ public class ChangeFeedExtendedRetentionSample {
                             Thread.sleep(250);
                         }
                     }
-                    finalTokens[cursorIndex] = cursor.toToken();
+                    finalTokens[cursorIndex] = cursor.toToken(FeedJson::write);
                 } catch (CursorExpiredException ce) {
                     synchronized (threadException) {
                         if (threadException[0] == null) {

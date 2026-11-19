@@ -3,10 +3,9 @@
 Command-line samples that demonstrate the Multicloud DB SDK's **pull-mode
 change feed** on Azure Cosmos DB and Amazon DynamoDB.
 
-> ℹ️ **Provider support:** These samples require SDK `0.1.0-beta.2`. The
+> ℹ️ **Provider support:** These samples require the [source-installed SDK](README.md#sdk-version). The
 > one-shot (`ChangeFeedSample`) and continuous (`ChangeFeedWatcherSample`)
-> samples run on **Cosmos DB** and **DynamoDB**. Spanner does not yet implement
-> change feed — pointing those samples at a Spanner config exits with an error.
+> samples target **Cosmos DB** and **DynamoDB**, not Spanner.
 > Extended retention (`ChangeFeedExtendedRetentionSample`) is **Cosmos-only**
 > because DynamoDB Streams are fixed at 24h server-side.
 
@@ -14,9 +13,9 @@ change feed** on Azure Cosmos DB and Amazon DynamoDB.
 
 | Sample | Cosmos DB | DynamoDB | Spanner |
 |--------|-----------|----------|---------|
-| **`ChangeFeedSample`** (one-shot) | ✅ `0.1.0-beta.2` | ✅ `0.1.0-beta.2` | ❌ Not yet supported |
-| **`ChangeFeedWatcherSample`** (continuous) | ✅ `0.1.0-beta.2` | ✅ `0.1.0-beta.2` | ❌ Not yet supported |
-| **`ChangeFeedExtendedRetentionSample`** (extended retention) | ✅ `0.1.0-beta.2` | ❌ Not supported (Streams fixed at 24h) | ❌ Not yet supported |
+| **`ChangeFeedSample`** (one-shot) | ✅ | ✅ | ❌ Not supported by this sample |
+| **`ChangeFeedWatcherSample`** (continuous) | ✅ | ✅ | ❌ Not supported by this sample |
+| **`ChangeFeedExtendedRetentionSample`** (extended retention) | ✅ | ❌ Not supported (Streams fixed at 24h) | ❌ Not supported by this sample |
 
 > **Provider-specific prerequisites.**
 >
@@ -116,10 +115,7 @@ $env:PATH      = "$env:JAVA_HOME\bin;$env:PATH"
 java -version   # should say 17.x
 ```
 
-> **SDK dependencies** are pulled from Maven Central by default — no separate
-> SDK build step is required. To test against a locally-built SDK, see
-> [`../README.md#sdk-version`](README.md#sdk-version) for the
-> `.mvn/maven.config` override workflow.
+> Build the SDK from the [matching revision](README.md#sdk-version) first.
 
 ---
 
@@ -1245,7 +1241,5 @@ the [Todo App README's SSL section](README-todo-app.md#5-ssl-certificate-trust)
 for the full walk-through.
 
 ### `Could not find artifact com.microsoft.multiclouddb:multiclouddb-api:jar:<version>`
-You likely have a stale `.mvn/maven.config` left over from local SDK testing.
-Either delete `.mvn/maven.config` (defaults will resolve `0.1.0-beta.2` from
-Maven Central) or update the override to a version actually installed in your
-`~/.m2`. See [`../README.md#sdk-version`](README.md#sdk-version).
+Install the [matching SDK revision](README.md#sdk-version) locally and check
+that a stale `.mvn/maven.config` isn't overriding the POM's snapshot versions.

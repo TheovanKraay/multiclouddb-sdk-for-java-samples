@@ -23,14 +23,13 @@ java -version   # must be 17 or later
 
 ### 2 — Build this project
 
-SDK dependencies are pulled from Maven Central by default — no extra setup needed.
+This branch uses the **unreleased** serialization API. [Install the matching
+SDK revision](#sdk-version) before compiling the samples.
 
 ```bash
 # In this repo root
 mvn compile
 ```
-
-> **Developing the SDK itself?** See [SDK Version](#sdk-version) below for how to point the build at a locally-built SDK via a git-ignored override file.
 
 ---
 
@@ -108,8 +107,7 @@ mvn exec:java -Dexec.mainClass=com.multiclouddb.samples.todo.TodoApp \
 
 > ℹ️ **Provider support:** The one-shot (`ChangeFeedSample`) and continuous
 > (`ChangeFeedWatcherSample`) change-feed samples run on **Azure Cosmos DB**
-> and **Amazon DynamoDB** (SDK `0.1.0-beta.2`). Spanner does not yet implement
-> change feed — running these samples against Spanner exits with an error.
+> and **Amazon DynamoDB**. These samples do not target the Spanner change feed.
 > Extended retention (`ChangeFeedExtendedRetentionSample`) remains **Cosmos-only**
 > because DynamoDB Streams are fixed at 24h.
 
@@ -407,32 +405,32 @@ multiclouddb-samples/
 
 ## SDK Version
 
-This project depends on **Multicloud DB SDK `0.1.0-beta.2`** ([Maven Central](https://search.maven.org/artifact/com.microsoft.multiclouddb/multiclouddb-api)).
-
-### Upgrading
-
-To pick up a newer released version, bump the `multiclouddb-*.version` properties in `pom.xml`.
-
-### Testing against a locally-built SDK
-
-When developing the SDK itself, you can point this project at a locally-installed build without modifying `pom.xml`:
+This branch tests the merge of [SDK PR 122](https://github.com/microsoft/multiclouddb-sdk-for-java/pull/122).
+Install all modules from that revision into the same local Maven repository used by the samples:
 
 ```bash
-# 1. Build & install the SDK locally
-cd <multiclouddb-sdk-for-java>
+git clone https://github.com/microsoft/multiclouddb-sdk-for-java.git
+cd multiclouddb-sdk-for-java
+git checkout --detach 40b2e2ba5075e17e51b74399f074de28f3762f69
 mvn clean install -DskipTests
-
-# 2. Activate the override in this repo
-cp .mvn/maven.config.example .mvn/maven.config
-
-# 3. Edit .mvn/maven.config to match the version you just installed
-#    (defaults to 0.2.0-SNAPSHOT in the template)
-
-# 4. Build as usual — Maven picks up .mvn/maven.config automatically
-mvn compile
 ```
 
-`.mvn/maven.config` is git-ignored, so per-developer overrides never leak into commits.
+Then run `mvn clean verify` in the samples checkout. No `.mvn/maven.config`
+override is needed; remove stale local version overrides. The POM selects
+`0.1.0-beta.2-SNAPSHOT` for API/Cosmos/Dynamo and `0.1.0-beta.1-SNAPSHOT` for Spanner.
+
+### What changed for a sample author?
+
+| Use case | Released samples (`main`) | This branch |
+|---|---|---|
+| Writes and queries | Write Maps; get rows as Maps | Same call sites. Input values must now be supported Maps, Lists or scalars. |
+| Point reads | `result.document()` is an `ObjectNode` | It is a detached, mutable Map. Map-based callers can edit it directly; the TODO and risk APIs use `valueToTree` where their callers expect Jackson trees. |
+| Feed preview | Print a `JsonNode` | `event.data()` is an `Object`. Skip a missing (`null`) payload, but serialize a supplied empty Map as `{}`. |
+| Persist/resume a cursor | `cursor.toToken()` / `ChangeFeedCursor.fromToken(token)` | `cursor.toToken(FeedJson::write)` / `ChangeFeedCursor.fromToken(token, FeedJson::read)`. The samples share [one Jackson adapter](src/main/java/com/multiclouddb/samples/changefeed/FeedJson.java); the SDK still owns the v1 envelope. |
+
+Jackson is an application choice, not a requirement for using the client. The
+samples already declared it for their HTTP APIs. The callback plumbing only
+applies when turning cursors into tokens or restoring them.
 
 ---
 
